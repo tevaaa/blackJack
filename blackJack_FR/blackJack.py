@@ -39,10 +39,18 @@ def miser():
     f = open("banque.txt", "r")
     argent_total = f.read()
     f.close()
+    argent_total = int(argent_total)
+    if argent_total < 0:
+        print("Vous n'avez plus d'argent, vous ne pouvez pas miser..")
+        return exit()
     print("Vous avez ", argent_total,"$ sur votre compte, combien souhaitez vous miser ?")
     mise = int(input("réponse:"))
+    while mise > argent_total:
+        print("Mise invalide, vous n'avez pas assez d'argent sur votre compte, choisir une mise valide")
+        mise = int(input("réponse:"))
+    if argent_total < mise:
+        print("La mise est supérieur à votre solde, veuillez saisir une valeur valide.")
     f = open("banque.txt", "w")
-    print(argent_total)
     argent_total = int(argent_total) - mise
     f.write(str(argent_total))
     f.close()
@@ -60,13 +68,13 @@ def miseUpdate(mise):
     return mise
 
 
-def checkBlackJack(main_joueur, main_croupier):
-    print("on rentre dans checkBlackJack")
+def checkBlackJack(main_joueur, main_croupier,mise):
     if valeurMain(main_joueur) == valeurMain(main_croupier) and valeurMain(main_joueur) == 21:
         print("Vous et le croupier avez un BLACKJACK, match nul.")
         rejouer()
     elif valeurMain(main_joueur) == 21:
         print("Félicitations ! Vous avez un BLACKJACK, vous avez gagner ")
+        miseUpdate(mise)
         rejouer()
     elif valeurMain(main_croupier) == 21:
         print("Dommage, le croupier a fait un BLACKJACK...")
@@ -75,6 +83,14 @@ def checkBlackJack(main_joueur, main_croupier):
 
 def tirer(jeu):
     carte = jeu.pop()
+    if carte[0] == 11:
+        carte[0] = "Valet"
+    if carte[0] == 12:
+        carte[0] = "Dame"
+    if carte[0] == 13:
+        carte[0] = "Roi"
+    if carte[0] == 14:
+        carte[0] = "As"
     return carte
 
 
@@ -126,9 +142,9 @@ def scoreFin(mainJoueur, mainCroupier, mise):
     
     
 def blackJack():
-    print(" ______________________________________")
+    print(" _____________________________________")
+    print("|                                     |")
     print("| BIENVENUE SUR LE JEU DU BLACKJACK ! |")
-    print("|              (par Téva)             |")
     print("|_____________________________________|")
     reponse = ""
     jeu = [] 
@@ -139,7 +155,7 @@ def blackJack():
     for _ in range(2):
         mainJoueur = (distribuer(jeu,mainJoueur))
         mainCroupier = (distribuer(jeu,mainCroupier))
-    checkBlackJack(mainJoueur, mainCroupier)
+    checkBlackJack(mainJoueur, mainCroupier, mise)
     while reponse != "q":
         if valeurMain(mainJoueur) > 21 or valeurMain(mainJoueur) == 21:
             scoreFin(mainJoueur, mainCroupier, mise)
