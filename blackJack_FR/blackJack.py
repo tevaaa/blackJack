@@ -142,10 +142,9 @@ def scoreFin(mainJoueur, mainCroupier, mise):
     
     
 def blackJack():
-    print(" _____________________________________")
-    print("|                                     |")
-    print("| BIENVENUE SUR LE JEU DU BLACKJACK ! |")
-    print("|_____________________________________|")
+
+    print("| BIENVENUE SUR LE JEU DU BLACKJACK ! | ")
+
     reponse = ""
     jeu = [] 
     jeu = creer_jeu()
