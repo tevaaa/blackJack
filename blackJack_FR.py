@@ -36,7 +36,7 @@ def distribuer(jeu,main):
     return main
 
 def miser():
-    f = open("banque.txt", "r")
+    f = open("bank.txt", "r")
     argent_total = f.read()
     f.close()
     argent_total = int(argent_total)
@@ -50,18 +50,19 @@ def miser():
         mise = int(input("réponse:"))
     if argent_total < mise:
         print("La mise est supérieur à votre solde, veuillez saisir une valeur valide.")
-    f = open("banque.txt", "w")
+    f = open("bank.txt", "w")
     argent_total = int(argent_total) - mise
     f.write(str(argent_total))
     f.close()
+    clearConsole()
     return mise
 
 
 def miseUpdate(mise):
-    f = open("banque.txt", "r")
+    f = open("bank.txt", "r")
     argent_total = f.read()
     f.close()
-    f = open("banque.txt", "w")
+    f = open("bank.txt", "w")
     argent_total = int(int(argent_total) + mise)
     f.write(str(argent_total))
     f.close()
@@ -166,17 +167,17 @@ def blackJack():
         afficherMains(mainJoueur, mainCroupier)
         reponse = input("Voulez-vous (T)irer, (R)ester avec ces cartes ou bien (Q)uitter")
         reponse.lower()
+        clearConsole()
         if reponse == "q":
             return 
         elif reponse == "t":
             if reponse == "t":
                 mainJoueur.append(tirer(jeu)) #Le joueur tire une carte et la boucle recommence
         else: #Le joueur a fini son tour on passe maintenant au tour du croupier a
-            print('elif reponse == "r"')
             while valeurMain(mainCroupier) < 17:
                     mainCroupier.append(tirer(jeu))
             scoreFin(mainJoueur, mainCroupier, mise)
             reponse = rejouer()
 
-
+clearConsole()
 blackJack()
